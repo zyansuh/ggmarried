@@ -1,0 +1,132 @@
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  display: flex; flex-direction: column; gap: 16px;
+  position: relative; z-index: 1;
+  animation: fadeUp .4s ease both;
+}
+
+/* ── 상단 바 ── */
+.topBar { display: flex; align-items: center; justify-content: space-between; }
+.backBtn {
+  padding: 10px 18px; border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--text-sub);
+  font-size: 13px; font-weight: 600; box-shadow: var(--shadow-sm); min-width: 110px;
+}
+.backBtn:hover { background: var(--p-purple); color: var(--p-purple-text); }
+.pageTitle { font-size: 18px; font-weight: 900; color: var(--p-purple-text); }
+
+/* ── 사다리 카드 ── */
+.ladderCard {
+  background: var(--surface);
+  border-radius: var(--radius-xl); padding: 24px 20px;
+  box-shadow: var(--shadow); overflow-x: auto;
+}
+
+/* ── 이름 행 ── */
+.nameRow { display: flex; justify-content: center; }
+.nameTag { display: flex; justify-content: center; flex-shrink: 0; }
+
+/* ── 이름 칩 ── */
+.nameChip {
+  padding: 9px 10px; border-radius: 12px;
+  font-size: 13px; font-weight: 700;
+  max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  text-align: center; cursor: pointer; border: none; letter-spacing: 0.2px;
+  transition: transform .15s, opacity .2s, filter .15s;
+}
+.nameChip:hover:not(:disabled) { transform: translateY(-3px); filter: brightness(.93); }
+.nameChip:active:not(:disabled){ transform: scale(.94); }
+.nameChip:disabled { cursor: default; }
+
+/* 남자: 파스텔 스카이 */
+.chipMale   { background: var(--p-blue);   color: var(--p-blue-text);   box-shadow: var(--shadow-sm); }
+/* 여자: 파스텔 로즈 */
+.chipFemale { background: var(--p-rose);   color: var(--p-rose-text);   box-shadow: var(--shadow-sm); }
+/* 다음에: 파스텔 슬레이트 */
+.chipEmpty  { background: var(--p-slate);  color: var(--p-slate-text);  font-size: 11px; box-shadow: var(--shadow-sm); }
+
+.nameChip.animating { animation: softPulse 1s infinite; transform: translateY(-3px); }
+.nameChip.dimmed    { opacity: .30; }
+
+/* ── 캔버스 ── */
+.canvasWrap { overflow-x: auto; margin: 2px 0; }
+
+/* ── 힌트 ── */
+.clickHint { text-align: center; font-size: 13px; color: var(--muted); }
+
+/* ── 전체 시작 버튼 ── */
+.startBtn {
+  width: 100%; padding: 18px; border-radius: var(--radius-lg);
+  background: var(--p-purple); color: var(--p-purple-text);
+  font-size: 17px; font-weight: 800; letter-spacing: .4px;
+  box-shadow: 0 6px 24px rgba(221,214,254,.7);
+  animation: softPulse 2.4s ease-in-out infinite;
+}
+.startBtn:hover { filter: brightness(.93); }
+
+/* ── 로딩 ── */
+.loadingBadge {
+  text-align: center; padding: 16px; background: var(--surface);
+  border-radius: var(--radius); font-size: 15px; font-weight: 600;
+  color: var(--text-sub); box-shadow: var(--shadow-sm);
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.spinner {
+  width: 18px; height: 18px;
+  border: 2.5px solid var(--border);
+  border-top-color: var(--p-purple-text);
+  border-radius: 50%;
+  animation: spin .7s linear infinite; flex-shrink: 0;
+}
+
+/* ── 결과 패널 ── */
+.resultPanel {
+  background: var(--surface);
+  border-radius: var(--radius-xl); padding: 28px;
+  box-shadow: var(--shadow);
+  animation: scaleIn .4s ease both;
+}
+.resultTitleRow {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; margin-bottom: 22px;
+}
+.resultHeart { font-size: 28px; animation: heartbeat 2s ease-in-out infinite; }
+.resultTitle { font-size: 22px; font-weight: 900; color: var(--p-purple-text); }
+
+.resultList { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+.resultItem {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  animation: fadeUp .35s ease both;
+}
+.resultItem.resultItemEmpty { opacity: .48; }
+
+.resultMale {
+  background: var(--p-blue); color: var(--p-blue-text);
+  padding: 12px 24px; border-radius: 50px;
+  font-size: 14px; font-weight: 700; min-width: 88px; text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.resultArrow { font-size: 20px; animation: heartbeat 1.8s ease-in-out infinite; }
+.resultFemale {
+  background: var(--p-rose); color: var(--p-rose-text);
+  padding: 12px 24px; border-radius: 50px;
+  font-size: 14px; font-weight: 700; min-width: 88px; text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.resultEmpty {
+  background: var(--p-slate); color: var(--p-slate-text);
+  padding: 12px 24px; border-radius: 50px;
+  font-size: 13px; font-weight: 600; min-width: 88px; text-align: center;
+}
+
+/* ── 다시 돌리기 ── */
+.retryBtn {
+  width: 100%; padding: 16px; border-radius: var(--radius);
+  background: var(--p-mint); color: var(--p-mint-text);
+  font-size: 15px; font-weight: 700;
+  box-shadow: 0 4px 16px rgba(167,243,208,.6);
+  transition: filter .15s;
+}
+.retryBtn:hover { filter: brightness(.93); }
