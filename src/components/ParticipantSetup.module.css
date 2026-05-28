@@ -70,9 +70,16 @@
 .gBtnMale.active  { background: var(--p-blue);  color: var(--p-blue-text); }
 .gBtnFemale.active{ background: var(--p-rose);  color: var(--p-rose-text); }
 
-.inputRow { display: flex; gap: 10px; }
+.inputRow {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+}
 .nameInput {
-  flex: 1; padding: 13px 16px;
+  flex: 1;
+  min-width: 0; /* flex 아이템이 충분히 줄어들도록 */
+  padding: 13px 16px;
   border-radius: var(--radius-sm);
   background: var(--bg);
   font-size: 15px; color: var(--text); font-weight: 500;
@@ -287,8 +294,8 @@
   .gBtn { font-size: 13px; padding: 9px 0; }
 
   /* 입력 줄 조정 */
-  .nameInput { font-size: 14px; padding: 11px 12px; }
-  .addBtn    { padding: 11px 14px; font-size: 14px; }
+  .nameInput { font-size: 14px; padding: 11px 12px; min-width: 0; }
+  .addBtn    { padding: 11px 14px; font-size: 14px; flex-shrink: 0; }
 
   .appTitle { font-size: 16px; }
   .settingsBtn { width: 34px; height: 34px; font-size: 15px; }
