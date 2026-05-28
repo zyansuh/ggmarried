@@ -4,12 +4,19 @@ import css from './LadderGame.module.css';
 /* ═══════════════════════════════════════════
    상수
 ═══════════════════════════════════════════ */
-const COL_W   = 90;
 const ROW_H   = 56;
 const ROWS    = 8;
-const PAD_X   = 50;
 const PAD_TOP = 64;
 const PAD_BOT = 64;
+
+/** 화면 너비에 따라 열 너비·패딩 동적 결정 */
+function getColMetrics() {
+  const w = window.innerWidth;
+  if (w <= 360) return { COL_W: 62, PAD_X: 28 };
+  if (w <= 480) return { COL_W: 72, PAD_X: 32 };
+  if (w <= 640) return { COL_W: 80, PAD_X: 38 };
+  return { COL_W: 90, PAD_X: 50 };
+}
 
 const PATH_COLORS = [
   '#F9A8C9',  // 로즈
@@ -85,8 +92,8 @@ function traverse(bridges, startCol) {
 /* ═══════════════════════════════════════════
    Canvas 렌더러
 ═══════════════════════════════════════════ */
-function renderCanvas(canvas, cols, bridges, drawnPaths) {
-  const W = PAD_X * 2 + (cols - 1) * COL_W;
+function renderCanvas(canvas, cols, bridges, drawnPaths, colW, padX) {
+  const W = padX * 2 + (cols - 1) * colW;
   const H = PAD_TOP + ROWS * ROW_H + PAD_BOT;
   canvas.width  = W;
   canvas.height = H;
@@ -94,7 +101,7 @@ function renderCanvas(canvas, cols, bridges, drawnPaths) {
   const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, W, H);
 
-  const gx = (c) => PAD_X + c * COL_W;
+  const gx = (c) => padX + c * colW;
   const gy = (r) => {
     if (r < 0)     return PAD_TOP;
     if (r >= ROWS) return PAD_TOP + ROWS * ROW_H;
@@ -172,6 +179,8 @@ export default function LadderGame({ males, females, onBack }) {
   const activeFemales = females.filter((f) => !f.excluded);
   const cols = Math.max(activeMales.length, 2);
 
+  const { COL_W, PAD_X } = getColMetrics();
+
   // 게임 초기화: 다리 + 하단 슬롯을 함께 생성 (retry 시 재생성)
   const initGame = useCallback(() => ({
     bridges:     buildBridges(cols),
@@ -205,7 +214,7 @@ export default function LadderGame({ males, females, onBack }) {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    renderCanvas(canvas, cols, bridges, drawnPaths);
+    renderCanvas(canvas, cols, bridges, drawnPaths, COL_W, PAD_X);
   }, [bridges, cols, drawnPaths, activeIdx]);
 
   /* 애니메이션 루프 */
@@ -229,7 +238,7 @@ export default function LadderGame({ males, females, onBack }) {
         ...drawnPaths.filter((p) => p.colIdx !== resultIdx),
         { ...result, points: partial },
       ];
-      if (canvasRef.current) renderCanvas(canvasRef.current, cols, bridges, current);
+      if (canvasRef.current) renderCanvas(canvasRef.current, cols, bridges, current, COL_W, PAD_X);
 
       step++;
       if (step >= allPoints.length) {

@@ -253,3 +253,55 @@
   box-shadow: 0 4px 16px rgba(221,214,254,.6);
 }
 .modalConfirm:hover { filter: brightness(.94); }
+
+/* ══════════════════════════════
+   반응형 — 태블릿 (≤ 640px)
+══════════════════════════════ */
+@media (max-width: 640px) {
+  .wrap { padding: 16px 12px; gap: 12px; }
+
+  .header { padding: 14px 16px; border-radius: var(--radius-lg); }
+  .logoEmoji { font-size: 30px; }
+  .appTitle  { font-size: 18px; }
+  .appSub    { display: none; }
+
+  .inputCard { padding: 14px; }
+
+  .statsBar { gap: 16px; padding: 12px; }
+  .statNum  { font-size: 26px; }
+
+  .startBtn { padding: 16px; font-size: 15px; border-radius: var(--radius); }
+}
+
+/* ══════════════════════════════
+   반응형 — 모바일 (≤ 480px)
+══════════════════════════════ */
+@media (max-width: 480px) {
+  /* 남자/여자 목록을 세로로 쌓기 */
+  .listsRow { flex-direction: column; gap: 0; }
+
+  /* 두 리스트가 쌓일 때 모서리 조정 */
+  .listCol:first-child .listHeader { border-radius: var(--radius) var(--radius) 0 0; }
+  .listCol:first-child .listBody   { border-radius: 0; }
+  .listCol:last-child  .listHeader { border-radius: 0; border-top: 1px solid var(--border); }
+  .listCol:last-child  .listBody   { border-radius: 0 0 var(--radius) var(--radius); }
+
+  /* 성별 토글 텍스트 축소 */
+  .gBtn { font-size: 13px; padding: 9px 0; }
+
+  /* 입력 줄 조정 */
+  .nameInput { font-size: 14px; padding: 11px 12px; }
+  .addBtn    { padding: 11px 14px; font-size: 14px; }
+
+  .appTitle { font-size: 16px; }
+  .settingsBtn { width: 34px; height: 34px; font-size: 15px; }
+
+  .statNum    { font-size: 24px; }
+  .statDivider{ font-size: 18px; }
+
+  .startBtn { font-size: 15px; padding: 15px; }
+
+  /* 모달 */
+  .modalBox { padding: 20px; }
+  .modalRow { padding: 10px 12px; }
+}

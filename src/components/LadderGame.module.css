@@ -130,3 +130,61 @@
   transition: filter .15s;
 }
 .retryBtn:hover { filter: brightness(.93); }
+
+/* ══════════════════════════════
+   반응형 — 태블릿 (≤ 640px)
+══════════════════════════════ */
+@media (max-width: 640px) {
+  .wrap { padding: 16px 12px 40px; gap: 14px; }
+
+  .backBtn  { min-width: 90px; padding: 9px 12px; font-size: 12px; }
+  .pageTitle{ font-size: 15px; }
+
+  .ladderCard { padding: 16px 12px; border-radius: var(--radius-lg); }
+
+  .startBtn { padding: 16px; font-size: 15px; border-radius: var(--radius); }
+
+  .resultPanel  { padding: 20px; border-radius: var(--radius-lg); }
+  .resultTitle  { font-size: 18px; }
+  .resultHeart  { font-size: 22px; }
+  .resultMale,
+  .resultFemale,
+  .resultEmpty  { padding: 10px 16px; min-width: 72px; font-size: 13px; }
+  .resultArrow  { font-size: 17px; }
+
+  .retryBtn { padding: 14px; font-size: 14px; }
+}
+
+/* ══════════════════════════════
+   반응형 — 모바일 (≤ 480px)
+══════════════════════════════ */
+@media (max-width: 480px) {
+  .wrap { padding: 12px 10px 36px; }
+
+  /* 상단 바: 뒤로가기 + 제목 압축 */
+  .topBar   { gap: 6px; }
+  .backBtn  { min-width: 76px; padding: 8px 10px; font-size: 11px; }
+  .pageTitle{ font-size: 14px; }
+
+  /* 사다리 카드 */
+  .ladderCard { padding: 12px 8px; }
+
+  /* 이름 칩 축소 */
+  .nameChip { padding: 7px 8px; font-size: 11px; max-width: 64px; border-radius: 9px; }
+  .chipEmpty{ font-size: 10px; }
+
+  /* 결과 아이템: 세로 스택 (이름이 길 때 자동 줄바꿈) */
+  .resultItem { gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .resultMale,
+  .resultFemale,
+  .resultEmpty { min-width: 64px; padding: 9px 14px; font-size: 12px; }
+  .resultArrow { font-size: 16px; }
+  .resultTitle { font-size: 16px; }
+  .resultHeart { font-size: 20px; }
+
+  .startBtn  { font-size: 14px; padding: 14px; }
+  .clickHint { font-size: 12px; }
+  .retryBtn  { font-size: 13px; padding: 13px; }
+
+  .loadingBadge { font-size: 13px; padding: 13px; }
+}
