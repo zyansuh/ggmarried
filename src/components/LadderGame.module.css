@@ -52,6 +52,12 @@
 /* 하단 슬롯: 클릭 불가, 호버 없음 */
 .nameChipStatic        { cursor: default; }
 .nameChipStatic:hover  { transform: none !important; filter: none !important; }
+/* 제외된 남자: 연한 표시 + 취소선 느낌 */
+.chipExcluded {
+  opacity: .55;
+  outline: 2px dashed rgba(148,163,184,.6);
+  outline-offset: 1px;
+}
 
 /* ── 캔버스 ── */
 .canvasWrap { overflow-x: auto; margin: 2px 0; }
@@ -122,6 +128,24 @@
   background: var(--p-slate); color: var(--p-slate-text);
   padding: 12px 24px; border-radius: 50px;
   font-size: 13px; font-weight: 600; min-width: 88px; text-align: center;
+}
+
+/* ── 미매칭 구분선 ── */
+.unmatchedDivider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 2px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+.unmatchedDivider::before,
+.unmatchedDivider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
 }
 
 /* ── 다시 돌리기 ── */

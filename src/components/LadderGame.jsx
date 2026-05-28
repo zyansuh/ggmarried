@@ -175,17 +175,17 @@ function renderCanvas(canvas, cols, bridges, drawnPaths, colW, padX) {
 export default function LadderGame({ males, females, onBack }) {
   const canvasRef = useRef(null);
 
-  const activeMales   = males.filter((m) => !m.excluded);
-  const activeFemales = females.filter((f) => !f.excluded);
-  const cols = Math.max(activeMales.length, 2);
+  // 제외 여부와 관계없이 전원 사다리 참여
+  // 단, 제외된 남자는 결과에서 강제로 "다음 기회에" 처리
+  const eligibleFemales = females.filter((f) => !f.excluded);
+  const cols = Math.max(males.length, 2);
 
   const { COL_W, PAD_X } = getColMetrics();
 
-  // 게임 초기화: 다리 + 하단 슬롯을 함께 생성 (retry 시 재생성)
   const initGame = useCallback(() => ({
     bridges:     buildBridges(cols),
-    bottomSlots: buildBottomSlots(activeFemales, cols),
-  }), [cols, activeFemales]);
+    bottomSlots: buildBottomSlots(eligibleFemales, cols),
+  }), [cols, eligibleFemales]);
 
   const [game,       setGame]       = useState(initGame);
   const [allResults, setAllResults] = useState(null);
@@ -196,19 +196,23 @@ export default function LadderGame({ males, females, onBack }) {
 
   const { bridges, bottomSlots } = game;
 
-  /* 결과 계산 */
+  /* 결과 계산
+     - 제외된 남자 → 경로는 그리되 결과는 강제로 empty ("다음 기회에")
+  */
   const computeResults = useCallback((br, slots) =>
-    activeMales.map((male, i) => {
+    males.map((male, i) => {
       const { points, endCol } = traverse(br, i);
-      const slot = slots[endCol];
+      const slot = male.excluded
+        ? { type: 'empty', person: null, id: `exc_${male.id}` }
+        : slots[endCol];
       return {
         male,
-        slot,           // { type: 'female'|'empty', person }
+        slot,
         colIdx: i,
         points,
         color: PATH_COLORS[i % PATH_COLORS.length],
       };
-    }), [activeMales]);
+    }), [males]);
 
   /* 캔버스 초기 렌더 */
   useEffect(() => {
@@ -292,8 +296,19 @@ export default function LadderGame({ males, females, onBack }) {
 
   const isAnimating = phase === 'animating';
   const isDone      = phase === 'done';
+
   const visibleResults = allResults
     ? allResults.filter((r) => drawnPaths.some((p) => p.colIdx === r.colIdx))
+    : [];
+
+  // 여자가 남자보다 많을 때: 매칭 안 된 여자 목록
+  const matchedFemaleIds = new Set(
+    visibleResults
+      .filter((r) => r.slot?.type === 'female')
+      .map((r) => r.slot.person.id)
+  );
+  const unmatchedFemales = isDone
+    ? eligibleFemales.filter((f) => !matchedFemaleIds.has(f.id))
     : [];
 
   return (
@@ -305,15 +320,17 @@ export default function LadderGame({ males, females, onBack }) {
       </div>
 
       <div className={css.ladderCard}>
-        {/* 남자 이름 (전원) */}
+        {/* 남자 이름 (전원 — 제외된 사람도 표시) */}
         <div className={css.nameRow}>
-          {activeMales.map((m, i) => {
+          {males.map((m, i) => {
             const drawn   = drawnPaths.some((p) => p.colIdx === i);
             const animNow = isAnimating && activeIdx === i;
             return (
               <div key={m.id} className={css.nameTag} style={{ width: COL_W }}>
                 <button
-                  className={[css.nameChip, css.chipMale,
+                  className={[
+                    css.nameChip, css.chipMale,
+                    m.excluded ? css.chipExcluded : '',
                     animNow ? css.animating : '',
                     drawn && !animNow ? css.dimmed : '',
                   ].join(' ')}
@@ -348,7 +365,7 @@ export default function LadderGame({ males, females, onBack }) {
                     drawn && !animNow ? css.dimmed : '',
                   ].join(' ')}
                 >
-                  {isFemale ? slot.person.name : '다음에'}
+                  {isFemale ? slot.person.name : '💫 언젠가'}
                 </div>
               </div>
             );
@@ -374,7 +391,12 @@ export default function LadderGame({ males, females, onBack }) {
       )}
 
       {(visibleResults.length > 0 || isDone) && (
-        <ResultPanel results={visibleResults} isDone={isDone} onRetry={retry} />
+        <ResultPanel
+          results={visibleResults}
+          unmatchedFemales={unmatchedFemales}
+          isDone={isDone}
+          onRetry={retry}
+        />
       )}
     </div>
   );
@@ -383,7 +405,7 @@ export default function LadderGame({ males, females, onBack }) {
 /* ═══════════════════════════════════════════
    결과 패널
 ═══════════════════════════════════════════ */
-function ResultPanel({ results, isDone, onRetry }) {
+function ResultPanel({ results, unmatchedFemales, isDone, onRetry }) {
   return (
     <div className={css.resultPanel}>
       <div className={css.resultTitleRow}>
@@ -406,10 +428,30 @@ function ResultPanel({ results, isDone, onRetry }) {
               {item.slot.type === 'female' ? '💞' : '😅'}
             </span>
             <div className={item.slot.type === 'female' ? css.resultFemale : css.resultEmpty}>
-              {item.slot.type === 'female' ? item.slot.person.name : '다음 기회에'}
+              {item.slot.type === 'female' ? item.slot.person.name : 'To be continued...'}
             </div>
           </div>
         ))}
+
+        {/* 여자가 더 많을 때: 매칭 안 된 여자 */}
+        {isDone && unmatchedFemales.length > 0 && (
+          <>
+            <div className={css.unmatchedDivider}>
+              <span>아직 인연을 기다리는 중 💫</span>
+            </div>
+            {unmatchedFemales.map((f, i) => (
+              <div
+                key={f.id}
+                className={`${css.resultItem} ${css.resultItemEmpty}`}
+                style={{ animationDelay: `${(results.length + i) * 0.06}s` }}
+              >
+                <div className={css.resultFemale}>{f.name}</div>
+                <span className={css.resultArrow}>🌟</span>
+                <div className={css.resultEmpty}>To be continued...</div>
+              </div>
+            ))}
+          </>
+        )}
       </div>
 
       {isDone && (
