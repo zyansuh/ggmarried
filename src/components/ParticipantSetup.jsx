@@ -57,10 +57,10 @@ function GenderList({ type, items, onRemove }) {
         {items.length === 0
           ? <p className={css.listEmpty}>아직 없어요</p>
           : items.map((p) => (
-            <div key={p.id} className={`${css.personRow} ${p.excluded ? css.excluded : ''}`}>
+            <div key={p.id} className={css.personRow}>
               <div className={css.personName}>
-                <span className={`${css.dot} ${isMale ? css.dotMale : css.dotFemale} ${p.excluded ? css.dotExcluded : ''}`} />
-                <span className={`${css.nameText} ${p.excluded ? css.excluded : ''}`}>{p.name}</span>
+                <span className={`${css.dot} ${isMale ? css.dotMale : css.dotFemale}`} />
+                <span className={css.nameText}>{p.name}</span>
               </div>
               <button className={css.removeBtn} onClick={() => onRemove(p.id)}>✕</button>
             </div>

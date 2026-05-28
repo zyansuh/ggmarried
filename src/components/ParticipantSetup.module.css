@@ -130,7 +130,6 @@
   transition: opacity .2s, background .2s;
 }
 .personRow:last-child { border-bottom: none; }
-.personRow.excluded   { opacity: .38; background: var(--bg); }
 
 .personName { display: flex; align-items: center; gap: 8px; }
 .dot {
@@ -139,10 +138,8 @@
 }
 .dotMale     { background: var(--p-blue-text); }
 .dotFemale   { background: var(--p-rose-text); }
-.dotExcluded { background: #FCA5A5 !important; }
 
 .nameText { font-size: 14px; font-weight: 600; color: var(--text); }
-.nameText.excluded { text-decoration: line-through; color: var(--muted); }
 
 .removeBtn {
   width: 24px; height: 24px; border-radius: 50%;
