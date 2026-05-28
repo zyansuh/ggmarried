@@ -47,8 +47,11 @@
 /* 다음에: 파스텔 슬레이트 */
 .chipEmpty  { background: var(--p-slate);  color: var(--p-slate-text);  font-size: 11px; box-shadow: var(--shadow-sm); }
 
-.nameChip.animating { animation: softPulse 1s infinite; transform: translateY(-3px); }
-.nameChip.dimmed    { opacity: .30; }
+.nameChip.animating    { animation: softPulse 1s infinite; transform: translateY(-3px); }
+.nameChip.dimmed       { opacity: .30; }
+/* 하단 슬롯: 클릭 불가, 호버 없음 */
+.nameChipStatic        { cursor: default; }
+.nameChipStatic:hover  { transform: none !important; filter: none !important; }
 
 /* ── 캔버스 ── */
 .canvasWrap { overflow-x: auto; margin: 2px 0; }

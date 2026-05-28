@@ -331,26 +331,25 @@ export default function LadderGame({ males, females, onBack }) {
           <canvas ref={canvasRef} style={{ display: 'block', margin: '0 auto' }} />
         </div>
 
-        {/* 하단 슬롯 (여자 실제 인원 + 다음 기회에) */}
+        {/* 하단 슬롯 (여자 실제 인원 + 다음 기회에) — 클릭 비활성 */}
         <div className={css.nameRow}>
           {bottomSlots.map((slot, i) => {
-            const drawn   = allResults && drawnPaths.some((p) => p.colIdx === i);
-            const animNow = isAnimating && activeIdx === i;
+            const drawn    = allResults && drawnPaths.some((p) => p.colIdx === i);
+            const animNow  = isAnimating && activeIdx === i;
             const isFemale = slot.type === 'female';
             return (
               <div key={slot.id} className={css.nameTag} style={{ width: COL_W }}>
-                <button
+                <div
                   className={[
                     css.nameChip,
+                    css.nameChipStatic,
                     isFemale ? css.chipFemale : css.chipEmpty,
                     animNow ? css.animating : '',
                     drawn && !animNow ? css.dimmed : '',
                   ].join(' ')}
-                  onClick={() => clickName(i)}
-                  disabled={isAnimating}
                 >
                   {isFemale ? slot.person.name : '다음에'}
-                </button>
+                </div>
               </div>
             );
           })}
@@ -358,7 +357,7 @@ export default function LadderGame({ males, females, onBack }) {
       </div>
 
       {phase === 'ready' && (
-        <p className={css.clickHint}>이름을 클릭하면 그 사람만 사다리를 탑니다 ✨</p>
+        <p className={css.clickHint}>위 이름을 클릭하면 그 사람만 사다리를 탑니다 ✨</p>
       )}
 
       {phase === 'ready' && (
