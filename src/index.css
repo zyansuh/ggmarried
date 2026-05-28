@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap');
+
+/* ══════════════════════════════
+   디자인 토큰 — 플랫 파스텔
+══════════════════════════════ */
+:root {
+  /* 파스텔 컬러 */
+  --p-rose:      #FBCFE8;   /* 연한 핑크 */
+  --p-rose-text: #9D174D;   /* 핑크 글씨 */
+  --p-blue:      #BAE6FD;   /* 연한 스카이 */
+  --p-blue-text: #075985;   /* 스카이 글씨 */
+  --p-purple:    #DDD6FE;   /* 연한 라벤더 */
+  --p-purple-text:#4C1D95;  /* 라벤더 글씨 */
+  --p-mint:      #A7F3D0;   /* 연한 민트 */
+  --p-mint-text: #065F46;   /* 민트 글씨 */
+  --p-yellow:    #FEF08A;   /* 연한 옐로우 */
+  --p-yellow-text:#713F12;  /* 옐로우 글씨 */
+  --p-peach:     #FED7AA;   /* 연한 피치 */
+  --p-peach-text:#7C2D12;   /* 피치 글씨 */
+  --p-slate:     #E2E8F0;   /* 연한 슬레이트 */
+  --p-slate-text:#475569;   /* 슬레이트 글씨 */
+
+  /* 배경·서피스 */
+  --bg:       #F8F7FF;
+  --surface:  #FFFFFF;
+  --border:   #EDE9FB;
+  --muted:    #B0A8CC;
+  --text:     #2D1F50;
+  --text-sub: #8B7BAE;
+
+  /* 반경 */
+  --radius-sm: 10px;
+  --radius:    16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  /* 그림자 */
+  --shadow-sm:  0 2px 8px rgba(100,60,180,0.06);
+  --shadow:     0 6px 24px rgba(100,60,180,0.09);
+  --shadow-lg:  0 14px 44px rgba(100,60,180,0.13);
+}
+
+/* ── 리셋 ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+button { cursor: pointer; font-family: inherit; border: none; transition: transform .15s, opacity .15s, filter .15s; }
+button:active { transform: scale(0.97); }
+input  { font-family: inherit; border: none; outline: none; }
+input::placeholder { color: var(--muted); }
+
+/* ── 애니메이션 ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes heartbeat {
+  0%, 70%, 100% { transform: scale(1); }
+  15%  { transform: scale(1.25); }
+  40%  { transform: scale(1.10); }
+}
+@keyframes softPulse {
+  0%, 100% { box-shadow: 0 6px 24px rgba(221,214,254,0.6); }
+  50%       { box-shadow: 0 8px 32px rgba(221,214,254,0.9); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
