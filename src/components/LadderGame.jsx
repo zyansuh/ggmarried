@@ -330,7 +330,6 @@ export default function LadderGame({ males, females, onBack }) {
                 <button
                   className={[
                     css.nameChip, css.chipMale,
-                    m.excluded ? css.chipExcluded : '',
                     animNow ? css.animating : '',
                     drawn && !animNow ? css.dimmed : '',
                   ].join(' ')}
